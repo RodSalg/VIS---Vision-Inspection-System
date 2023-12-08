@@ -14,10 +14,10 @@ class DAO_gap:
 
             mydb = mysql.connector.connect(
                 
-                host='mnsnt066', 
-                database='gapserver', 
-                user='fit_inventario', 
-                password='Flex@2k20')
+                host = 'localhost', 
+                database = 'vis', 
+                user = 'root', 
+                password = '1234')
             
             return mydb
         
