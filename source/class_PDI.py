@@ -110,5 +110,16 @@ class Processamentos:
 
         edge_image = self.edge_tracking(strong_edges, weak_edges)
 
-        return edge_image 
+        return edge_image
+
+# pdi = Processamentos() 
+
+# imagem = cv.imread('C:\GITHUB\TCC\WIN_20231208_21_08_21_Pro.jpg', 0)
+
+# edge = pdi.processamento_de_imagem(imagem, 20, 15)
+
+# edge = cv.resize(edge, (1280, 720))
+
+# cv.imshow('iamgem', edge)
+# cv.waitKey()
         
