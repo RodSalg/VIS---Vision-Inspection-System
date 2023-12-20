@@ -12,24 +12,25 @@ class Opcua:
     '''
     def __init__(self, ip_plc):
 
-        server_ip = "192.168.0.10"
+        server_ip = ip_plc
 
         self.client = Client("opc.tcp://{}:4840".format(server_ip))
 
-    '''
-    
-        A função get_value():
-            
-            - Parâmetros: o nome do nó o qual você deseja puxar as informações como String.
-            - Retorno: Retorna o valor armazenado dentro desta variável no CLP em string.
 
-    '''
+    def get_value(self, node_name:str) -> str:
 
-    def get_value(self, node) -> str:
+        '''
+        
+            A função get_value():
+                
+                - Parâmetros: o nome do nó o qual você deseja puxar as informações como String.
+                - Retorno: Retorna o valor armazenado dentro desta variável no CLP em string.
+
+        '''
     
         try:
         
-            node = self.client.get_node('ns=3;s="{}"'.format(node))
+            node = self.client.get_node('ns=3;s="{}"'.format(node_name))
 
             value = node.get_value()
 
@@ -37,7 +38,7 @@ class Opcua:
             
         except Exception as e:
 
-            print('Erro ao obter valor do nó: {}\n'.format(node))
+            print('Erro ao obter valor do nó: {}\n'.format(node_name))
             print('erro: ', e)
 
     '''
@@ -54,9 +55,13 @@ class Opcua:
 
             node = self.client.get_node('ns=3;s="{}"'.format(node))
 
-            value = node.set_value()
+            node.set_value()
 
         except Exception as e:
 
             print('Erro ao escrever valor no nó: {}\n'.format(node))
             print('erro: ', e)
+
+# dados = Opcua("192.168.0.10")
+
+# print(dados.get_value())
