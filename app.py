@@ -31,9 +31,15 @@ logo = logo.resize((200, 230))
 
 a1.image(logo)
 
-no = a2.text_input('')
+no = a2.text_input('digite aqui')
 
-resposta_opcua = dados.get_value(no)
+if len(no) < 2:
+
+    resposta_opcua = 'vazio'
+
+else:
+
+    resposta_opcua = dados.get_value(no)
 
 if no is None:
 
@@ -46,14 +52,33 @@ else:
 a3.metric("Ulitma Atualização", 'TESTE')
 
 
-
-
 b1, b2, b3 = st.columns(3)
 
 with b1:
 
     teste = b1.radio("Selecione uma ação:", ["True", "False"], index=1, horizontal = True)
-    st.button('Confirmar')
+
+    no2 = st.text_input('qual nó deseja alterar')
+
+    if st.button('Confirmar'):
+
+        if teste == 'True':
+
+            dados.set_value(no2, True)
+
+        elif teste == 'False':
+
+            dados.set_value(no2, False)
+
+    picture = b2.camera_input('TIRANDO FOTO')
+
+    if picture:
+        b2.image(picture)
+
+
+
+
+
 
 b2.metric("Ulitma Atualização", 'TESTE')
 b3.metric("Ulitma Atualização", 'TESTE')

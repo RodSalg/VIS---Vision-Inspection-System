@@ -17,7 +17,7 @@ class Opcua:
         self.client = Client("opc.tcp://{}:4840".format(server_ip))
 
 
-    def get_value(self, node_name:str) -> str:
+    def get_value(self, node_name) -> str:
 
         '''
         
@@ -29,7 +29,9 @@ class Opcua:
         '''
     
         try:
-        
+            
+            self.client.connect()
+
             node = self.client.get_node('ns=3;s="{}"'.format(node_name))
 
             value = node.get_value()
@@ -43,25 +45,50 @@ class Opcua:
 
     '''
     
-        A função get_value():
+        A função set_value():
             
             - Parâmetros: o nome do nó o qual você deseja puxar as informações como String.
             - Retorno: Não possui.
 
     '''
-    def set_value(self, node) -> None: 
+    def set_value(self, node_name, estado) -> None: 
     
         try:
+            self.client.connect()
+            node = self.client.get_node('ns=3;s="{}"'.format(node_name))
 
-            node = self.client.get_node('ns=3;s="{}"'.format(node))
+            var = ua.DataValue(ua.Variant(estado, ua.VariantType.Boolean))
 
-            node.set_value()
+            var.ServerTimestamp = None
+            var.SourceTimestamp = None
+
+            node.set_value(var)
+
+            print('')
+
+            if estado == True:
+
+                var = ua.DataValue(ua.Variant(False, ua.VariantType.Boolean))
+                
+                var.ServerTimestamp = None
+                var.SourceTimestamp = None
+
+                node.set_value(var)
+
+            else:
+
+                var = ua.DataValue(ua.Variant(True, ua.VariantType.Boolean))
+
+                var.ServerTimestamp = None
+                var.SourceTimestamp = None
+
+                node.set_value(var)
 
         except Exception as e:
 
-            print('Erro ao escrever valor no nó: {}\n'.format(node))
+            print('Erro ao escrever valor no nó: {}\n'.format(node_name))
             print('erro: ', e)
 
 # dados = Opcua("192.168.0.10")
 
-# print(dados.get_value())
+# print(dados.get_value('BT_START'))
