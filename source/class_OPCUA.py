@@ -1,6 +1,7 @@
 from opcua import Client
 from opcua import ua
 import os
+import time
 
 class Opcua:
 
@@ -10,14 +11,14 @@ class Opcua:
     o qual você deseja acessar.
     
     '''
-    def __init__(self, ip_plc):
+    def __init__(self, ip_plc:str) -> None:
 
         server_ip = ip_plc
 
         self.client = Client("opc.tcp://{}:4840".format(server_ip))
 
 
-    def get_value(self, node_name) -> str:
+    def get_value(self, node_name: str) -> str:
 
         '''
         
@@ -43,15 +44,17 @@ class Opcua:
             print('Erro ao obter valor do nó: {}\n'.format(node_name))
             print('erro: ', e)
 
-    '''
-    
-        A função set_value():
-            
-            - Parâmetros: o nome do nó o qual você deseja puxar as informações como String.
-            - Retorno: Não possui.
+    def set_value(self, node_name:str, estado:bool) -> None: 
 
-    '''
-    def set_value(self, node_name, estado) -> None: 
+            
+        '''
+        
+            A função set_value():
+                
+                - Parâmetros: o nome do nó o qual você deseja puxar as informações como String.
+                - Retorno: Não possui.
+
+        '''
     
         try:
             self.client.connect()
@@ -65,6 +68,8 @@ class Opcua:
             node.set_value(var)
 
             print('')
+
+            time.sleep(0.2)
 
             if estado == True:
 

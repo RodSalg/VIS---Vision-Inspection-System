@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 from source.class_OPCUA import Opcua
+
 # -- objetos -- 
 dados = Opcua("192.168.0.10")
 

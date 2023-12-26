@@ -114,7 +114,7 @@ class Processamentos:
 
 # pdi = Processamentos() 
 
-# imagem = cv.imread('C:\GITHUB\TCC\WIN_20231208_21_08_21_Pro.jpg', 0)
+# imagem = cv.imread('C:\GITHUB\TCC\images\ufam.png', 0)
 
 # edge = pdi.processamento_de_imagem(imagem, 20, 15)
 

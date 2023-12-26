@@ -7,7 +7,6 @@ server_ip = "192.168.0.10" #241
 
 client = Client("opc.tcp://{}:4840".format(server_ip))
 
-# while True:
 
 try:
     client.connect()
@@ -17,12 +16,10 @@ try:
 # Obtém os atributos do nó
     print('nivel de acesso: ', node.get_access_level())
 
-
-
     attributes = node.get_attribute(1)
 
-
     print('\n', attributes)
+
     # node.set_value(True)
     # node.set_writable()
 

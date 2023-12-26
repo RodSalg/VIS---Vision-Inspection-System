@@ -97,6 +97,7 @@ class DAO_gap:
             else:
 
                 print('Banco de dados anteriormente fechado.')
+                
 # teste = DAO_gap(1)
 # algo = teste.get_limits_and_areas_gap()
 
