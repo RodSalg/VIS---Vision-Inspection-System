@@ -2,6 +2,7 @@ import cv2
 import time
 import threading
 from source.class_PDI import Processamentos
+from source.class_analisa_gap import Gap
 
 # ----- Functions -----
 
@@ -64,8 +65,8 @@ while True:
     _, frame = cap.read()     
 
     cv2.imshow('Extraindo informações da esteira', frame)   
-
-
+    cv2.imwrite('teste.bmp', frame)
+    
     if(sensor_capacitivo == True):
 
         print('Iniciando Análise do GAP')
@@ -73,9 +74,14 @@ while True:
         inicio = time.time()
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        resultado = gap.processamento_de_imagem(gray_frame, 20, 50)
+
+        testando = Gap()
+
+        testando.main(gray_frame)
+
+        # resultado = gap.processamento_de_imagem(gray_frame, 20, 50)
         
-        cv2.imwrite('resultado.bmp', resultado)
+        # cv2.imwrite('resultado2.bmp', resultado)
         
         fim = time.time()
 

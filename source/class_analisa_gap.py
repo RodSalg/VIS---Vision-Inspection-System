@@ -3,13 +3,12 @@ import cv2 as cv
 import datetime
 import numpy as np
 import time
-import class_PDI as pdi
-import gap_DAO as gDAO
+import source.class_PDI as pdi
 from colorama import Fore, Back, Style, init
 
 class Gap:
      
-    def __init__(self, modelo):
+    def __init__(self):
         
         pass
 
@@ -59,7 +58,7 @@ class Gap:
             cont = cont + 1
 
         current_time = self.get_hora_atual()
-        # cv.imwrite('images_canny/regiao_inferior/{}_{}_inf.jpg'.format(current_time, filename), imagem_analise_superior)
+        cv.imwrite('canny_testes/{}_{}_inf.jpg'.format(current_time, filename), imagem_analise_superior)
 
         return y_superior
 
@@ -82,7 +81,7 @@ class Gap:
 
 
         current_time = self.get_hora_atual()
-        # cv.imwrite('images_canny/regiao_superior/{}_{}_sup.jpg'.format(current_time, filename), imagem_analise_superior)
+        cv.imwrite('canny_testes/{}_{}_sup.jpg'.format(current_time, filename), imagem_analise_superior)
     
         return y_inferior
 
@@ -100,13 +99,28 @@ class Gap:
         y_superior = None
         y_inferior = None
 
+
+
         y_superior = self.get_y_superior(imagem, altura_imagem, centro_imagem_x, filename)
 
         y_inferior = self.get_y_inferior(imagem, altura_imagem, centro_imagem_x, filename)
 
+                
+
+        if( (y_superior is None) or (y_inferior is None) ):
+
+            return None #-1 é porque nao conseguiu contar o gap (falta de informação)
+
+        distance_gap = y_inferior - y_superior
+
+        if(distance_gap is None):
+
+            distance_gap = -1 #simboliza que voltou vazio 
 
 
-        return y_superior, y_inferior
+
+
+        return distance_gap
 
 
     def get_inteiro_x_y(self, x, y):
@@ -122,64 +136,54 @@ class Gap:
         return x, y
 
 
-    def main(self, imagem, x, y):
+    def main(self, imagem):
         
 
 
 
         current_time = self.get_hora_atual()
         
-        edge_image = pdi.processamento_de_imagem(imagem, 20, 50)
+        processamento = pdi.Processamentos()
 
-        limite_superior, limite_inferior = self.get_distance_gap(edge_image, 'gap')
+        # print(imagem.shape)
 
-        limit_gap = 30
+        centro_y = int(imagem.shape[1] / 2) #x
+        centro_x = int(imagem.shape[0] / 2) #y
+
+        # print(centro_x, centro_y)
         
-       
-        if(res_gap == 'NGAP'):
-
-            return 'NGAP'
+        img = imagem[centro_x - 100:centro_x + 100, centro_y - 340:centro_y + 300] 
         
+        # cv.imshow('teste', img)
+        # cv.waitKey()
+        
+        regiao_cortada = processamento.processamento_de_imagem(img, 20, 50)
+
+        cv.imwrite('teste2.bmp', regiao_cortada)
+
+        distance_gap = self.get_distance_gap(regiao_cortada, 'gap')
+
+        print(distance_gap)
+
+        limit_gap = 200
+    
+        if(distance_gap > limit_gap):
+
+            result_gap =  'NOK'
+
         else:
 
-            if( (limite_inferior is None) or (limite_superior is None) ):
+            result_gap = 'OK'
 
-                return 'OK' #-1 é porque nao conseguiu contar o gap (falta de informação)
+        print(result_gap)
+
+    
+# testando = Gap()
+
+# testando.main((cv.imread('C:/GITHUB/TCC/teste.bmp', 0)), 10, 10 )
         
-            if( (limite_inferior is None) and (limite_superior is None) ):
 
-                return 'OK'
-
-            if(result_gap is None):
-
-                result_gap = 0
-
-            distance_gap = limite_inferior - limite_superior
-
-            if(distance_gap is None):
-
-                distance_gap = -1 #simboliza que voltou vazio 
-
-
-            
-
-            
-
-
-            print(f'limite gap: {limit_gap}')
-
-            print(Fore.RED  + 'y_inf - y_sup = distance gap ou \n ({} - {}) = {} '.format(limite_inferior, limite_superior, distance_gap) + Style.RESET_ALL)
-
-            if(distance_gap > limit_gap):
-
-                result_gap =  'NOK'
-
-            else:
-
-                result_gap = 'OK'
-            
-
-            return result_gap
+#         # return result_gap
 
         
 
