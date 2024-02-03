@@ -12,9 +12,14 @@ class Opcua:
     '''
     def __init__(self, ip_plc:str) -> None:
 
-        self.client = Client("opc.tcp://{}:4840".format(ip_plc))
-        self.client.connect()
+        try:
 
+            self.client = Client("opc.tcp://{}:4840".format(ip_plc))
+            self.client.connect()
+            
+        except ValueError as e:
+
+            print(f'Erro ao tentar se conectar, erro:\n {e}')
 
     def get_value(self, node_name: str) -> str:
 

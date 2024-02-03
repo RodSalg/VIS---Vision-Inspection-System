@@ -1,9 +1,6 @@
 import streamlit as st
 from PIL import Image
-from source.class_OPCUA import Opcua
 
-# -- objetos -- 
-dados = Opcua("192.168.0.10")
 
 st.set_page_config(layout = "wide", page_title = "VIS Project")
 
@@ -40,8 +37,8 @@ if len(no) < 2:
 
 else:
 
-    resposta_opcua = dados.get_value(no)
-
+    # resposta_opcua = dados.get_value(no)
+    pass
 if no is None:
 
     a2.metric("Resposta: ", 'no')
@@ -65,12 +62,12 @@ with b1:
 
         if teste == 'True':
 
-            dados.set_value(no2, True)
-
+            # dados.set_value(no2, True)
+            pass
         elif teste == 'False':
 
-            dados.set_value(no2, False)
-
+            # dados.set_value(no2, False)
+            pass
     picture = b2.camera_input('TIRANDO FOTO')
 
     if picture:
